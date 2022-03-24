@@ -50,7 +50,7 @@ const SearchUser = () => {
 
     const findSentRequestElement = (array, item) => {
         return array.find((element) => {
-            return element.recieverId === item;
+            return element.recieverId._id === item;
         })
     }
     const findRequestElement = (array, item) => {
@@ -189,7 +189,7 @@ const SearchUser = () => {
                                 })}
 
                                 {(more <= SearchUser.data.length) &&
-                                    < Button onClick={() => setMore(more + 1)}>Load More...</Button>
+                                    < Button onClick={() => setMore(more + 1)}>Show More...</Button>
                                 }
 
                             </>

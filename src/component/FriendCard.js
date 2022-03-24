@@ -1,4 +1,4 @@
-import { Button, Card, Grid, CardContent, CardMedia, Typography } from '@mui/material'
+import { Button, Card, Grid, Avatar, CardHeader } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,7 +7,10 @@ import { Link } from 'react-router-dom'
 import { acceptFriendRequest } from "../Redux/FRIEND/acceptFriendRequest/action"
 import { rejectFriendRequest } from "../Redux/FRIEND/rejectFriendRequest/action"
 import { removeFriendRequest } from "../Redux/FRIEND/removeFriend/action"
+import { removeFriendRequestRequest } from "../Redux/FRIEND/removeFriendRequest/action"
 
+
+import moment from 'moment'
 const useStyles = makeStyles((theme) => ({
     cardActtion: {
 
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         margin: "0px"
     }
 }))
-const FriendCard = ({ isFriend, friends }) => {
+const FriendCard = ({ isFriend, friends, isSentRequest }) => {
     const classes = useStyles()
     const action = useSelector(state => state.acceptFriend)
     const dispatch = useDispatch()
@@ -34,11 +37,13 @@ const FriendCard = ({ isFriend, friends }) => {
     const rejectFriend = (id) => {
         dispatch(rejectFriendRequest(id))
     }
-    // const viewFriend = (id) => {
-    //     dispatch(acceptFriendRequest(id))
-    // }
+
     const removeFriend = (id) => {
         dispatch(removeFriendRequest(id))
+    }
+
+    const RemoveFriendRequest = (id) => {
+        dispatch(removeFriendRequestRequest(id))
     }
 
 
@@ -48,37 +53,62 @@ const FriendCard = ({ isFriend, friends }) => {
             {
                 friends.map(data => {
                     return (
-                        <Grid item md={3} sm={4} xs={12} key={data._id}>
-                            <Card >
-                                <CardMedia
-                                    component="img"
-                                    alt="green iguana"
-                                    height="200"
-                                    image={(data.profileImg) ? `http://localhost:8080/${data.profileImg}` : "https://www.bing.com/th?id=OIP.poUweqDE6DdgwR3xvkOnEAHaHa&w=105&h=105&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2"}
+                        <Grid item md={12} lg={6} key={data._id}>
 
+
+                            <Card sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+                                <CardHeader
+                                    sx={{ width: "100%" }}
+                                    avatar={
+                                        <Avatar
+                                            alt={(isFriend) ? data.name[0] : (isSentRequest) ? data.recieverId.name[0] : data.senderId.name[0]}
+                                            src={`http://localhost:8080/${(isFriend) ? data.profileImg : (isSentRequest) ? data.recieverId.profileImg : data.senderId.profileImg}`}
+                                            sx={{ bgcolor: "red", textTransform: "capitalize" }} />
+
+                                    }
+                                    action={
+
+                                        isFriend ?
+                                            <div style={{ marginLeft: "auto" }}>
+
+                                                <Link to={`/profile?_id=${data._id}`} style={{ textDecoration: 'none' }}>
+                                                    <Button size="small" variant='text' sx={{ marginRight: "5px" }} >View</Button>
+                                                </Link>
+                                                <Button size="small" variant='text' color='warning' onClick={() => removeFriend(data._id)} >Remove</Button>
+
+                                            </div> :
+                                            (isSentRequest) ?
+                                                <div style={{ marginLeft: "auto" }}>
+                                                    <Link to={`/profile?_id=${data.recieverId._id}`} style={{ textDecoration: 'none' }}>
+                                                        <Button size="small" variant='text' sx={{ marginRight: "5px" }} >View</Button>
+                                                    </Link>
+                                                    <Button size="small" variant="text" onClick={() => { RemoveFriendRequest(data._id) }}>
+                                                        Cancel
+                                                    </Button>
+
+                                                </div>
+                                                :
+                                                <div style={{ marginLeft: "auto" }}>
+                                                    <Button size="small" variant="text" sx={{ marginRight: "5px" }} onClick={() => { confirmFriend(data._id) }}>
+                                                        Accept
+                                                    </Button>
+                                                    <Button size="small" variant="text" onClick={() => { rejectFriend(data._id) }}>
+                                                        Reject
+                                                    </Button>
+
+                                                </div>
+
+                                    }
+                                    title={(isFriend) ? data.name : (isSentRequest) ? data.recieverId.name : data.senderId.name}
+                                    subheader={(isFriend) ? `${data.friends.length} Friends` : moment.duration(moment.utc(data.createdAt).diff(moment(new Date()))).humanize(true)}
                                 />
-                                <CardContent>
-                                    <Typography variant="body1" color="text.primary">
-                                        {(isFriend) ? data.name : data.senderId.name}
-                                    </Typography>
-                                </CardContent>
-                                <div className={classes.cardActtion} >
-                                    {isFriend ?
-                                        <>
-                                            <Link to={`/profile?_id=${data._id}`}>
-                                                <Button variant='contained' className={classes.actionButton} >View</Button>
-                                            </Link>
-                                            <Button variant='contained' color='warning' className={classes.actionButton} onClick={() => removeFriend(data._id)} >Remove</Button>
 
-                                        </> :
-                                        <>
-                                            <Button variant='contained' className={classes.actionButton} onClick={() => { confirmFriend(data._id) }}>Confirm</Button>
-                                            <Button variant='contained' color='warning' className={classes.actionButton} onClick={() => { rejectFriend(data._id) }}>Reject</Button>
 
-                                        </>}
 
-                                </div>
                             </Card>
+
+
+
                         </Grid>
                     )
 

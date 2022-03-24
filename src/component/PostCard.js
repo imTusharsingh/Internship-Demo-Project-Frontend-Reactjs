@@ -82,6 +82,7 @@ const PostCard = ({ post, isSelfPosts, id }) => {
     })
 
 
+
     return (
 
         <>
@@ -129,7 +130,9 @@ const PostCard = ({ post, isSelfPosts, id }) => {
 
                     title={post.userId.name}
                     subheader={
-                        moment.utc(post.createdAt).format("MMM Do, YYYY")
+
+                        moment.duration(moment.utc(post.createdAt).diff(moment(new Date()))).humanize(true)
+
                     }
                 />
                 <CardMedia
@@ -157,19 +160,22 @@ const PostCard = ({ post, isSelfPosts, id }) => {
 
 
                 <CardActions sx={{ paddingTop: "2px", paddingBottom: "2px" }}>
-                    <IconButton >
-                        {
-                            (found) ?
 
-                                <Favorite sx={{ color: "red" }} onClick={() => handelDisLike(post._id)} />
-                                :
-                                <Favorite onClick={() => handelLike(post._id)} />
+                    {
+                        (found) ?
+                            <IconButton onClick={() => handelDisLike(post._id)} >
+                                <Favorite sx={{ color: "red" }} />
+                            </IconButton>
+                            :
+                            <IconButton onClick={() => handelLike(post._id)} >
+                                <Favorite />
+                            </IconButton>
 
-                        }
-                    </IconButton>
-                    <IconButton>
+                    }
 
-                        <Comment onClick={() => setExpanded(!expanded)} />
+                    <IconButton onClick={() => setExpanded(!expanded)}>
+
+                        <Comment />
 
                     </IconButton>
                     <IconButton>

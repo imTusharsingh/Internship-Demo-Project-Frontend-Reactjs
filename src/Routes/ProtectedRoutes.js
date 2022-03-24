@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 import { isExpired } from "react-jwt"
 import { authUserError } from '../Redux/AuthUser/index'
+import { addOnlineUser } from "../Redux/USER/onlineUser/index"
 
+
+import { io } from "socket.io-client";
+import socketConnection from '../component/socketConnection';
 
 
 
@@ -14,6 +18,9 @@ const ProtectedRoutes = () => {
     const { data } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const auth = useSelector(state => state.auth)
+    // const socket = useRef();
+
     useEffect(() => {
         if (data) {
             const expired = isExpired(data.token)
@@ -22,12 +29,27 @@ const ProtectedRoutes = () => {
                 setIsAuthenticated(false)
             }
             setIsAuthenticated(true)
+            // socket.current = io("ws://localhost:8900");
+
+            socketConnection.emit("addUser", auth.data._id);
+            socketConnection.on("getUsers", (users) => {
+                console.log(users)
+                dispatch(addOnlineUser(users))
+            });
         }
         else {
             setIsAuthenticated(false)
         }
 
     }, [])
+
+
+
+
+
+    // useEffect(() => {
+    //     socket.current = io("ws://localhost:8900");
+    // }, []);
 
 
 

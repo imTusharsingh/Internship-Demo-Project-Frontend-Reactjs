@@ -14,8 +14,8 @@ const ImageCards = ({ userPost, _id }) => {
             {userPost.posts.map(post => {
                 return (
 
-                    <Link to={_id ? `/Posts?id=${_id}` : "/Posts"} >
-                        <ImageListItem key={post.id}  >
+                    <Link to={_id ? `/Posts?id=${_id}` : "/Posts"} key={post._id}>
+                        <ImageListItem   >
 
                             <img
                                 src={`http://localhost:8080/${post.postImage}?w=164&h=164&fit=crop&auto=format`}

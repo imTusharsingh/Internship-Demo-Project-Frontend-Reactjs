@@ -9,10 +9,17 @@ import Right from '../component/Right';
 import RightProfile from '../component/RightProfile';
 
 
+
+
+
 const MainWrapper = () => {
     const [open, setOpen] = useState(false)
     const location = useLocation();
     console.log(location)
+
+
+
+
     return (
         <>
             <Grid container spacing={2} sx={{ backgroundColor: "rgb(240, 242, 245)" }}>

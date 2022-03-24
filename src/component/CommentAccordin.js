@@ -75,7 +75,7 @@ const CommentDrawer = ({ expanded, setExpanded, post, isSelfPosts, id }) => {
             <Accordion expanded={expanded} >
 
                 <AccordionSummary
-                    expanIcon={<ExpandMore />}
+                    expandIcon={<ExpandMore />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                     onClick={() => setExpanded(!expanded)}
@@ -87,9 +87,9 @@ const CommentDrawer = ({ expanded, setExpanded, post, isSelfPosts, id }) => {
                 <AccordionDetails>
                     {post.comments.slice(0).reverse().map(comment => {
                         return (
-                            <>
+                            <React.Fragment key={comment._id}>
                                 <Divider sx={{ width: "100%" }} />
-                                <div style={{ display: 'flex', margin: "8px 0px" }} key={comment._id}>
+                                <div style={{ display: 'flex', margin: "8px 0px" }} >
                                     <Avatar alt={comment.userId.name} src={`http://localhost:8080/${comment.userId.profileImg}`}
                                         sx={{ bgcolor: "red", height: "30px", width: "30px", fontSize: "15px" }}
                                     />
@@ -153,7 +153,7 @@ const CommentDrawer = ({ expanded, setExpanded, post, isSelfPosts, id }) => {
 
                                 </div>
 
-                            </>
+                            </React.Fragment>
                         )
                     })}
 

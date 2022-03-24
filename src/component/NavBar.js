@@ -1,4 +1,4 @@
-import { AccountCircle, Home, Logout, Search, Notifications, PeopleAlt, PersonAdd, Settings, Wysiwyg } from '@mui/icons-material'
+import { AccountCircle, Home, Logout, Search, Notifications, PeopleAlt, PersonAdd, Settings, Wysiwyg, Chat } from '@mui/icons-material'
 import { AppBar, Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React, { useState } from 'react'
@@ -134,7 +134,7 @@ const NavBar = () => {
                             <IconButton
                                 onClick={handleClick}
                                 size="small"
-                                sx={{ ml: 2 }}
+                                sx={{ mr: 2 }}
                                 aria-controls={open ? 'account-menu' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={open ? 'true' : undefined}
@@ -147,9 +147,19 @@ const NavBar = () => {
                             </IconButton>
 
                         </Tooltip>
+                        <Tooltip title="Chat">
+                            <Link to="/chat">
+                                <IconButton sx={{ mr: 2 }}>
+                                    <Chat />
+                                </IconButton>
+                            </Link>
+                        </Tooltip>
+
                         <IconButton >
                             <Notifications />
                         </IconButton>
+
+
 
                     </div>
 

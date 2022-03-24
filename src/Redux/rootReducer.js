@@ -35,6 +35,16 @@ import { removeFriendRequestReducer } from "./FRIEND/removeFriendRequest/reducer
 import { sendFriendRequestReducer } from "./FRIEND/sendFriendRequest/reducer";
 import { persistreducer } from "./AuthUser";
 
+//COVERSATION
+import { createConversationReducer } from "./Conversation/createConversation/reducer"
+import { getConversationReducer } from "./Conversation/getConversation/reducer"
+
+//MESSAGE
+import { createMessageReducer } from "./Message/createMessage/reducer"
+import { persistMessageReducer } from "./Message/getMessage/reducer"
+
+import { onlineUserReducer } from "./USER/onlineUser/index"
+
 const rootReducer = combineReducers({
     //USER
     login: loginReducer,
@@ -70,8 +80,17 @@ const rootReducer = combineReducers({
     removeFriendRequest: removeFriendRequestReducer,
     sendFriendRequest: sendFriendRequestReducer,
 
+    //Conversation
+    conversation: getConversationReducer,
+    createConversation: createConversationReducer,
 
-    auth: persistreducer
+    //Message
+    messages: persistMessageReducer,
+    createMessage: createMessageReducer,
+
+
+    auth: persistreducer,
+    onlineUser: onlineUserReducer
 });
 
 export default rootReducer;

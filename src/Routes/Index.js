@@ -11,6 +11,8 @@ import SignIn from "../Screen/SignIn";
 import MainWrapper from "../Screen/MainWrapper";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Post from "../Screen/Post";
+import ChatPage from '../Screen/ChatPage';
+
 
 const Index = () => {
     return (
@@ -24,7 +26,9 @@ const Index = () => {
                     <Route path="/Search" element={<SearchUser />} />
                     <Route path="/Posts" element={<Post />} />
                 </Route>
+                <Route path="/chat" element={<ChatPage />} />
             </Route>
+
 
 
             <Route path="/signup" element={<SignUp />} />

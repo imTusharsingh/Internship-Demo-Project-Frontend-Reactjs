@@ -37,6 +37,18 @@ const Post = () => {
     const posts = useSelector(state => state.Posts)
 
     const dispatch = useDispatch()
+    console.log("------------------------------------------------------------------------------------------------------")
+    const bla = new Date('2022-02-21T04:03:55.221+00:00')
+    console.log(bla)
+    console.log(posts)
+
+    posts.posts.sort((a, b) => {
+        let da = new Date(a.createdAt),
+            db = new Date(b.createdAt);
+        return db - da;
+    });
+
+
 
 
 
@@ -63,7 +75,7 @@ const Post = () => {
                         (posts.posts.length > 0) ?
                             posts.posts.map((post) => {
                                 return (
-                                    <PostCard post={post} isSelfPosts={id ? false : true} id={id} />
+                                    <PostCard post={post} isSelfPosts={id ? false : true} id={id} key={post._id} />
                                 )
                             })
                             : <div>

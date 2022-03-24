@@ -38,6 +38,12 @@ const Center = () => {
         dispatch(getFriendsPostRequest())
     }, [dispatch])
 
+    posts.posts.sort((a, b) => {
+        let da = new Date(a.createdAt),
+            db = new Date(b.createdAt);
+        return db - da;
+    });
+
 
 
     return (
@@ -50,7 +56,7 @@ const Center = () => {
                     (posts.posts.length > 0) ?
                         posts.posts.map((post) => {
                             return (
-                                <PostCard post={post} />
+                                <PostCard post={post} key={post._id} />
                             )
                         })
                         : <div>

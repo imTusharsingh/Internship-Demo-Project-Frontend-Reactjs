@@ -33,8 +33,11 @@ import { removeFriendRequestSaga } from "./FRIEND/removeFriendRequest/saga"
 import { sendFriendSaga } from "./FRIEND/sendFriendRequest/saga"
 
 
+import { getConversationSaga } from "./Conversation/getConversation/saga"
+import { createConversationSaga } from "./Conversation/createConversation/saga"
 
-
+import { getMessageSaga } from "./Message/getMessage/saga"
+import { createMessageSaga } from "./Message/createMessage/saga"
 
 
 
@@ -72,8 +75,15 @@ function* rootSaga() {
         rejectFriendSaga(),
         removeFriendSaga(),
         removeFriendRequestSaga(),
-        sendFriendSaga()
+        sendFriendSaga(),
 
+        //Conversation
+        getConversationSaga(),
+        createConversationSaga(),
+
+        //Message
+        getMessageSaga(),
+        createMessageSaga()
     ])
 }
 

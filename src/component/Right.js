@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 
 import { useSelector, useDispatch } from "react-redux"
 import { getRequestListRequest } from "../Redux/FRIEND/getFriendRequestList/action"
+import { acceptFriendRequest } from "../Redux/FRIEND/acceptFriendRequest/action"
+import { rejectFriendRequest } from "../Redux/FRIEND/rejectFriendRequest/action"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +30,12 @@ const Right = () => {
 
     const dispatch = useDispatch()
     const friendrequest = useSelector(state => state.friendRequestList)
+    const acceptRequest = (id) => {
+        dispatch(acceptFriendRequest(id))
+    }
+    const rejectRequest = (id) => {
+        dispatch(rejectFriendRequest(id))
+    }
     useEffect(() => {
         dispatch(getRequestListRequest())
     }, [dispatch])
@@ -46,7 +54,8 @@ const Right = () => {
                 {(friendrequest.friendRequests.length > 0) ?
                     friendrequest.friendRequests.map(data => {
                         return (
-                            <ListItem sx={{ padding: '0px 5px' }} divider='true' >
+
+                            <ListItem sx={{ padding: '0px 5px' }} divider={true} key={data._id}>
                                 <ListItemAvatar>
                                     <Avatar alt={data.recieverId.name} src="/static/images/avatar/1.jpg" />
                                 </ListItemAvatar>
@@ -56,14 +65,19 @@ const Right = () => {
                                         <Typography sx={{ fontSize: "15px", lineHeight: "15px" }}>{data.senderId.name}</Typography>
                                     }
                                     secondary={
-                                        <div style={{ display: "flex", alignItems: 'center', justifyContent: "flex-start" }}>
+                                        <React.Fragment >
 
-                                            <Typography component={"span"} sx={{ fontSize: "13px", marginRight: '10px', lineHeight: "25px" }}>Accept</Typography>
-                                            <Typography component={"span"} sx={{ fontSize: "13px", lineHeight: "25px" }}>Reject</Typography>
-                                        </div>
+                                            <Typography component={"span"} sx={{ fontSize: "13px", marginRight: '10px', lineHeight: "25px", cursor: "pointer", color: "blue" }}
+                                                onClick={() => acceptRequest(data._id)}
+                                            >Accept</Typography>
+                                            <Typography component={"span"} sx={{ fontSize: "13px", lineHeight: "25px", cursor: "pointer", color: "red" }}
+                                                onClick={() => rejectRequest(data._id)}
+                                            >Reject</Typography>
+                                        </React.Fragment>
                                     }
                                 />
                             </ListItem>
+
                         )
                     })
                     :
